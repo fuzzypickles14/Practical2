@@ -15,6 +15,7 @@ public class MainActivity extends AppCompatActivity {
         BoardView boardView = new BoardView(this);
         container.addView(boardView);
         setContentView(mainView);
+        boardView.game.newGame();
     }
 
 }

@@ -18,11 +18,20 @@
         <!--android:name="com.practical2.BoardFragment"-->
         <!--tools:layout="@layout/board_fragment" />-->
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/scoreTextView"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/rightButton"
+        android:elevation="22dp"
+        android:text="Score:%d" />
+
+
+    <LinearLayout
         android:id="@+id/boardView"
-        />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/upButton" />
 
 
 
@@ -32,7 +41,7 @@
         android:layout_height="wrap_content"
         android:text="Up"
         android:layout_above="@+id/leftButton"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"/>
 
     <Button
         android:id="@+id/downButton"
@@ -59,23 +68,14 @@
         android:layout_above="@+id/downButton"
         android:layout_toStartOf="@+id/upButton" />
 
-    <TextView
-        android:id="@+id/scoreTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Score:%d"
-        android:layout_alignParentTop="true"
-        android:layout_alignEnd="@+id/rightButton" />
-
     <Button
         android:id="@+id/restartButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/scoreTextView"
+        android:layout_alignEnd="@+id/rightButton"
         android:layout_alignParentBottom="true"
         android:layout_alignStart="@+id/leftButton"
-        android:layout_marginStart="34dp"
+        android:layout_centerHorizontal="true"
         android:text="Restart" />
 
 </RelativeLayout>
