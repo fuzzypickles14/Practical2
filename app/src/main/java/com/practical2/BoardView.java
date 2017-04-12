@@ -85,15 +85,15 @@ public class BoardView extends View {
                 int startY = startingY + boardWidth + (cellSize + boardWidth) * y;
                 int endY = startY + cellSize;
 
-                Tile currentTile = new Tile(0, 0, 0); // = game.grid.getCellContent(x, y);
-                //if (currentTile != null)
-                    //Get and represent the value of the tile
-                    int value = currentTile.getValue();
-                    int index = log2(value);
-
-                    bitmapCell[index].setBounds(startX, startY, endX, endY);
-                    bitmapCell[index].draw(canvas);
-
+//                Tile currentTile = game.grid.getCellContent(x, y);
+//                if (currentTile != null) {
+//                    // Get and represent the value of the tile
+//                    int value = currentTile.getValue();
+//                    int index = log2(value);
+//
+//                    bitmapCell[index].setBounds(startX, startY, endX, endY);
+//                    bitmapCell[index].draw(canvas);
+//                }
             }
         }
     }
