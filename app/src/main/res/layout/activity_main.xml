@@ -34,39 +34,42 @@
         android:layout_above="@+id/upButton" />
 
 
-
     <Button
         android:id="@+id/upButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Up"
         android:layout_above="@+id/leftButton"
-        android:layout_centerHorizontal="true"/>
+        android:layout_centerHorizontal="true"
+        android:tag="0"
+        android:text="Up" />
 
     <Button
         android:id="@+id/downButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="down"
-        android:layout_marginBottom="48dp"
         android:layout_alignParentBottom="true"
-        android:layout_toEndOf="@+id/leftButton" />
+        android:layout_marginBottom="48dp"
+        android:layout_toEndOf="@+id/leftButton"
+        android:tag="2"
+        android:text="down" />
 
     <Button
         android:id="@+id/rightButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Right"
         android:layout_above="@+id/downButton"
-        android:layout_toEndOf="@+id/downButton" />
+        android:layout_toEndOf="@+id/downButton"
+        android:tag="1"
+        android:text="Right" />
 
     <Button
         android:id="@+id/leftButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Left"
         android:layout_above="@+id/downButton"
-        android:layout_toStartOf="@+id/upButton" />
+        android:layout_toStartOf="@+id/upButton"
+        android:tag="3"
+        android:text="Left" />
 
     <Button
         android:id="@+id/restartButton"

@@ -150,7 +150,7 @@ public class BoardView extends View {
         if (value >= 8) {
             paint.setColor(ResourcesCompat.getColor(getResources(), R.color.text_white, null));
         } else {
-            paint.setColor(ResourcesCompat.getColor(getResources(), R.color.text_black, null));
+            paint.setColor(ResourcesCompat.getColor(getResources(), R.color.text_white, null));
         }
         canvas.drawText("" + value, tileSize / 2, tileSize / 2 - textShiftY, paint);
     }

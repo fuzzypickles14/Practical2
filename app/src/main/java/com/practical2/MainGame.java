@@ -3,6 +3,8 @@ package com.practical2;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.view.View;
+import android.widget.Button;
 
 import java.util.ArrayList;
 import java.util.Collections;
