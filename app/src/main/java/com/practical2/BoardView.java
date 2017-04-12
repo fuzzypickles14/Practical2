@@ -8,11 +8,8 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.res.ResourcesCompat;
 import android.util.Log;
-import android.view.ContextMenu;
 import android.view.View;
 import android.graphics.Paint;
-
-import java.util.ArrayList;
 
 /**
  * Created by robbylagen on 4/12/17.
@@ -26,6 +23,7 @@ public class BoardView extends View {
     public int endingY;
     public int iconSize;
     public int numTileTypes = 12;
+    public final MainGame game;
 
     private Bitmap background = null;
     private final Paint paint = new Paint();
@@ -35,7 +33,7 @@ public class BoardView extends View {
     private Drawable lightUpRec;
     private Drawable fadeRec;
 
-    private int cellSize = 0;
+    private int tileSize = 0;
     private int boardWidth = 0;
     private float textSize = 0;
 
@@ -43,6 +41,7 @@ public class BoardView extends View {
         super(context);
 
         // Load Resources
+        game = new MainGame(context, this);
         try {
             boardBackgroud = getDrawable(R.drawable.board_backgroud);
             lightUpRec = getDrawable(R.drawable.light_up_rec);
@@ -62,8 +61,6 @@ public class BoardView extends View {
         canvas.drawBitmap(background, 0, 0, paint);
 
         drawCells(canvas);
-
-
     }
 
     @Override
@@ -80,43 +77,43 @@ public class BoardView extends View {
         // Outputting the individual cells
         for (int x = 0; x < 4; x++) {
             for (int y = 0; y < 4; y++) {
-                int startX = startingX + boardWidth + (cellSize + boardWidth) * x;
-                int endX = startX + cellSize;
-                int startY = startingY + boardWidth + (cellSize + boardWidth) * y;
-                int endY = startY + cellSize;
+                int startX = startingX + boardWidth + (tileSize + boardWidth) * x;
+                int endX = startX + tileSize;
+                int startY = startingY + boardWidth + (tileSize + boardWidth) * y;
+                int endY = startY + tileSize;
 
-//                Tile currentTile = game.grid.getCellContent(x, y);
-//                if (currentTile != null) {
-//                    // Get and represent the value of the tile
-//                    int value = currentTile.getValue();
-//                    int index = log2(value);
-//
-//                    bitmapCell[index].setBounds(startX, startY, endX, endY);
-//                    bitmapCell[index].draw(canvas);
-//                }
+                Tile currentTile = game.board.getSpotContent(x, y);
+                if (currentTile != null) {
+                    // Get and represent the value of the tile
+                    int value = currentTile.getValue();
+                    int index = log2(value);
+
+                    bitmapCell[index].setBounds(startX, startY, endX, endY);
+                    bitmapCell[index].draw(canvas);
+                }
             }
         }
     }
 
 
     private void getLayout(int width, int height) {
-        // cellSize = Math.min(width / (game.numSquaresX + 1), height / (game.numSquaresY + 3));
-        cellSize = Math.min(width / 5, height / 7);
-        boardWidth = cellSize / 7;
+        // tileSize = Math.min(width / (game.numSquaresX + 1), height / (game.numSquaresY + 3));
+        tileSize = Math.min(width / 5, height / 7);
+        boardWidth = tileSize / 7;
         int screenMidX = width / 2;
         int screenMidY = height / 2;
-        int boardMidY = screenMidY + cellSize / 2;
-        iconSize = cellSize / 2;
+        int boardMidY = screenMidY + tileSize / 2;
+        iconSize = tileSize / 2;
 
         // Board Dimensions
         double halfNumSquaresX = 2;
         double halfNumSquaresY = 2;
-        startingX = (int) (screenMidX - (cellSize + boardWidth) * halfNumSquaresX - boardWidth / 2);
-        endingX = (int) (screenMidX + (cellSize + boardWidth) * halfNumSquaresX + boardWidth / 2);
-        startingY = (int) (boardMidY - (cellSize + boardWidth) * halfNumSquaresY - boardWidth / 2);
-        endingY = (int) (boardMidY + (cellSize + boardWidth) * halfNumSquaresY + boardWidth / 2);
+        startingX = (int) (screenMidX - (tileSize + boardWidth) * halfNumSquaresX - boardWidth / 2);
+        endingX = (int) (screenMidX + (tileSize + boardWidth) * halfNumSquaresX + boardWidth / 2);
+        startingY = (int) (boardMidY - (tileSize + boardWidth) * halfNumSquaresY - boardWidth / 2);
+        endingY = (int) (boardMidY + (tileSize + boardWidth) * halfNumSquaresY + boardWidth / 2);
 
-        textSize = cellSize * cellSize / Math.max(cellSize, paint.measureText("0000"));
+        textSize = tileSize * tileSize / Math.max(tileSize, paint.measureText("0000"));
     }
 
     private void createBitmapTiles() {
@@ -124,9 +121,9 @@ public class BoardView extends View {
         int[] tileIds = getTileIds();
         for (int i = 1; i < bitmapCell.length; i++) {
             int val = (int) Math.pow(2, i);
-            Bitmap bitmap = Bitmap.createBitmap(cellSize, cellSize, Bitmap.Config.ALPHA_8);
+            Bitmap bitmap = Bitmap.createBitmap(tileSize, tileSize, Bitmap.Config.ALPHA_8);
             Canvas canvas = new Canvas(bitmap);
-            drawDrawable(canvas, getDrawable(tileIds[i]), 0, 0, cellSize, cellSize);
+            drawDrawable(canvas, getDrawable(tileIds[i]), 0, 0, tileSize, tileSize);
             drawTileText(canvas, val);
             bitmapCell[i] = new BitmapDrawable(res, bitmap);
         }
@@ -155,7 +152,7 @@ public class BoardView extends View {
         } else {
             paint.setColor(ResourcesCompat.getColor(getResources(), R.color.text_black, null));
         }
-        canvas.drawText("" + value, cellSize / 2, cellSize / 2 - textShiftY, paint);
+        canvas.drawText("" + value, tileSize / 2, tileSize / 2 - textShiftY, paint);
     }
 
     private void drawBackground(Canvas canvas) {
@@ -166,10 +163,10 @@ public class BoardView extends View {
         Drawable backgroundTile = getDrawable(R.drawable.tile);
         for (int x = 0; x < 4; x++) {
             for (int y = 0; y < 4; y++) {
-                int startX = startingX + boardWidth + (cellSize + boardWidth) * x;
-                int endX = startX + cellSize;
-                int startY = startingY + boardWidth + (cellSize + boardWidth) * y;
-                int endY = startY + cellSize;
+                int startX = startingX + boardWidth + (tileSize + boardWidth) * x;
+                int endX = startX + tileSize;
+                int startY = startingY + boardWidth + (tileSize + boardWidth) * y;
+                int endY = startY + tileSize;
                 drawDrawable(canvas, backgroundTile, startX, startY, endX, endY);
             }
         }
