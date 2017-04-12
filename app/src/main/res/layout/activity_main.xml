@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -10,8 +11,71 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.practical2.MainActivity">
 
-    <TextView
+    <!--<fragment-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:id="@+id/boardFragment"-->
+        <!--android:name="com.practical2.BoardFragment"-->
+        <!--tools:layout="@layout/board_fragment" />-->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/boardView"
+        />
+
+
+
+    <Button
+        android:id="@+id/upButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Stuff goes here" />
+        android:text="Up"
+        android:layout_above="@+id/leftButton"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:id="@+id/downButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="down"
+        android:layout_marginBottom="48dp"
+        android:layout_alignParentBottom="true"
+        android:layout_toEndOf="@+id/leftButton" />
+
+    <Button
+        android:id="@+id/rightButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Right"
+        android:layout_above="@+id/downButton"
+        android:layout_toEndOf="@+id/downButton" />
+
+    <Button
+        android:id="@+id/leftButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Left"
+        android:layout_above="@+id/downButton"
+        android:layout_toStartOf="@+id/upButton" />
+
+    <TextView
+        android:id="@+id/scoreTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Score:%d"
+        android:layout_alignParentTop="true"
+        android:layout_alignEnd="@+id/rightButton" />
+
+    <Button
+        android:id="@+id/restartButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/scoreTextView"
+        android:layout_alignParentBottom="true"
+        android:layout_alignStart="@+id/leftButton"
+        android:layout_marginStart="34dp"
+        android:text="Restart" />
+
 </RelativeLayout>

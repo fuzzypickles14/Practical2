@@ -21,7 +21,7 @@ public class Board {
         this.clearUndoBoard();
     }
 
-    BoardSpot getRandomAvailableBoardSpot() {
+    public BoardSpot getRandomAvailableBoardSpot() {
         ArrayList<BoardSpot> boardSpotsAvailable = getAllAvailableBoardSpots();
         if (boardSpotsAvailable.size() >= 1) {
             return getAllAvailableBoardSpots().get((int) Math.floor(Math.random() * boardSpotsAvailable.size()));
@@ -50,14 +50,14 @@ public class Board {
         return (getSpotContent(spot) != null);
     }
 
-    Tile getSpotContent(BoardSpot spot) {
+    public Tile getSpotContent(BoardSpot spot) {
         if (spot != null && isSpotWithinBounds(spot)) {
             return board[spot.getX()][spot.getY()];
         }
             return null;
     }
 
-    Tile getSpotContent(int x, int y) {
+    public Tile getSpotContent(int x, int y) {
         if (isSpotWithinBounds(x, y)) {
             return board[x][y];
         }
