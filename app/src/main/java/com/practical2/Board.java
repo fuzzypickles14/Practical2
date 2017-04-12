@@ -89,6 +89,18 @@ public class Board {
         }
     }
 
+    void prepareSaveTiles() {
+        for (int x = 0; x < board.length; x++) {
+            for (int y = 0; y < board[0].length; y++) {
+                if (board[x][y] == null) {
+                    bufferedBoard[x][y] = null;
+                } else {
+                    bufferedBoard[x][y] = new Tile(x, y, board[x][y].getValue());
+                }
+            }
+        }
+    }
+
     void revertTiles() {
         for (int x = 0; x < undoBoard.length; x++) {
             for (int y = 0; y < undoBoard[0].length; y++) {
