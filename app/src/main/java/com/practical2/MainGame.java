@@ -292,6 +292,10 @@ public class MainGame {
             saveHighScore();
         }
     }
+
+    public void setNewGameState() {
+        gameState = GAME_CONTINUES;
+    }
 }
 
 

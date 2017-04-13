@@ -36,40 +36,40 @@
 
     <Button
         android:id="@+id/upButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/box_size"
+        android:layout_height="@dimen/box_size"
         android:layout_above="@+id/leftButton"
         android:layout_centerHorizontal="true"
-        android:tag="0"
-        android:text="Up" />
+        android:background="@drawable/arrow_icon_up"
+        android:tag="0" />
 
     <Button
         android:id="@+id/downButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/box_size"
+        android:layout_height="@dimen/box_size"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="48dp"
         android:layout_toEndOf="@+id/leftButton"
         android:tag="2"
-        android:text="down" />
+        android:background="@drawable/arrow_icon_up"/>
 
     <Button
         android:id="@+id/rightButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/box_size"
+        android:layout_height="@dimen/box_size"
         android:layout_above="@+id/downButton"
         android:layout_toEndOf="@+id/downButton"
-        android:tag="1"
-        android:text="Right" />
+        android:background="@drawable/arrow_icon_up"
+        android:tag="1" />
 
     <Button
         android:id="@+id/leftButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/box_size"
+        android:layout_height="@dimen/box_size"
         android:layout_above="@+id/downButton"
         android:layout_toStartOf="@+id/upButton"
         android:tag="3"
-        android:text="Left" />
+        android:background="@drawable/arrow_icon_up" />
 
     <Button
         android:id="@+id/restartButton"

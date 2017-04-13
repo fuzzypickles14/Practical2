@@ -48,7 +48,7 @@ public class BoardView extends View {
             boardBackgroud = getDrawable(R.drawable.board_backgroud);
             lightUpRec = getDrawable(R.drawable.light_up_rec);
             fadeRec  = getDrawable(R.drawable.fade_rec);
-            this.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.board_background_color, null));
+
             paint.setAntiAlias(true);
         } catch (Exception e) {
             Log.e("BoardView", "Error getting assets", e);
