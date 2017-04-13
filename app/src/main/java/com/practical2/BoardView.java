@@ -48,7 +48,7 @@ public class BoardView extends View {
             boardBackgroud = getDrawable(R.drawable.board_backgroud);
             lightUpRec = getDrawable(R.drawable.light_up_rec);
             fadeRec  = getDrawable(R.drawable.fade_rec);
-            this.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.text_black, null));
+            this.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.board_background_color, null));
             paint.setAntiAlias(true);
         } catch (Exception e) {
             Log.e("BoardView", "Error getting assets", e);
@@ -130,7 +130,7 @@ public class BoardView extends View {
         int[] tileIds = getTileIds();
         for (int i = 0; i < bitmapCell.length; i++) {
             int val = (int) Math.pow(2, i);
-            Bitmap bitmap = Bitmap.createBitmap(tileSize, tileSize, Bitmap.Config.ALPHA_8);
+            Bitmap bitmap = Bitmap.createBitmap(tileSize, tileSize, Bitmap.Config.ARGB_8888);
             Canvas canvas = new Canvas(bitmap);
             drawDrawable(canvas, getDrawable(tileIds[i]), 0, 0, tileSize, tileSize);
             drawTileText(canvas, val);
@@ -139,7 +139,7 @@ public class BoardView extends View {
     }
 
     private void createBitmapBackgroud(int width, int height) {
-        background = Bitmap.createBitmap(width, height, Bitmap.Config.ALPHA_8);
+        background = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(background);
         drawBackground(canvas);
         drawBackgroundBoard(canvas);
@@ -150,7 +150,6 @@ public class BoardView extends View {
     }
 
     private void drawDrawable(Canvas canvas, Drawable draw, int startingX, int startingY, int endingX, int endingY) {
-        draw.setAlpha(88);
         draw.setBounds(startingX, startingY, endingX, endingY);
         draw.draw(canvas);
     }
