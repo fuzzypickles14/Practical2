@@ -75,10 +75,8 @@
         android:id="@+id/restartButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/rightButton"
+        android:text="Restart"
         android:layout_alignParentBottom="true"
-        android:layout_alignStart="@+id/leftButton"
-        android:layout_centerHorizontal="true"
-        android:text="Restart" />
+        android:layout_alignParentEnd="true" />
 
 </RelativeLayout>
