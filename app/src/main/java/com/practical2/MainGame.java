@@ -126,8 +126,6 @@ public class MainGame {
                         // Converge the two tiles' positions
                         tile.updatePosition(positions[1]);
 
-                        int[] extras = {x, x};
-
                         // Update the score
                         score = score + merged.getValue();
                         highscore = Math.max(score, highscore);
