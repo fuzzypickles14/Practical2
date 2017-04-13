@@ -211,7 +211,7 @@ public class MainGame {
 
     private void addRandomTile() {
         if (board.areBoardSpotsAvailable()) {
-            int value = Math.random() < 0.9 ? 2 : 4;
+            int value = Math.random() < 0.75 ? 2 : 4;
             Tile tile = new Tile(board.getRandomAvailableBoardSpot(), value);
             spawnTile(tile);
         }
