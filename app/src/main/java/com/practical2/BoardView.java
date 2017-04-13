@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.ColorFilter;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.res.ResourcesCompat;
@@ -97,8 +98,7 @@ public class BoardView extends View {
 
 
     private void getLayout(int width, int height) {
-        // tileSize = Math.min(width / (game.numSquaresX + 1), height / (game.numSquaresY + 3));
-        tileSize = Math.min(width / 5, height / 7);
+        tileSize = Math.min(width / (game.numTilesX + 1), height / (game.numTilesY + 3));
         boardWidth = tileSize / 7;
         int screenMidX = width / 2;
         int screenMidY = height / 2;
@@ -141,6 +141,7 @@ public class BoardView extends View {
     }
 
     private void drawDrawable(Canvas canvas, Drawable draw, int startingX, int startingY, int endingX, int endingY) {
+        draw.setAlpha(88);
         draw.setBounds(startingX, startingY, endingX, endingY);
         draw.draw(canvas);
     }
@@ -150,8 +151,9 @@ public class BoardView extends View {
         if (value >= 8) {
             paint.setColor(ResourcesCompat.getColor(getResources(), R.color.text_white, null));
         } else {
-            paint.setColor(ResourcesCompat.getColor(getResources(), R.color.text_white, null));
+            paint.setColor(ResourcesCompat.getColor(getResources(), R.color.text_black, null));
         }
+        paint.setTextSize(100);
         canvas.drawText("" + value, tileSize / 2, tileSize / 2 - textShiftY, paint);
     }
 
