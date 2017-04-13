@@ -37,6 +37,7 @@ public class BoardView extends View {
     private int tileSize = 0;
     private int boardWidth = 0;
     private float textSize = 0;
+    private float tileTextSize = 0;
 
     public BoardView(Context context) {
         super(context);
@@ -47,13 +48,14 @@ public class BoardView extends View {
             boardBackgroud = getDrawable(R.drawable.board_backgroud);
             lightUpRec = getDrawable(R.drawable.light_up_rec);
             fadeRec  = getDrawable(R.drawable.fade_rec);
-            this.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.board_background_color, null));
+            this.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.text_black, null));
+            paint.setAntiAlias(true);
         } catch (Exception e) {
             Log.e("BoardView", "Error getting assets", e);
         }
 
         // set on touch listner
-
+        game.newGame();
     }
 
     @Override
@@ -76,8 +78,8 @@ public class BoardView extends View {
         paint.setTextSize(textSize);
         paint.setTextAlign(Paint.Align.CENTER);
         // Outputting the individual cells
-        for (int x = 0; x < 4; x++) {
-            for (int y = 0; y < 4; y++) {
+        for (int x = 0; x < game.numTilesX; x++) {
+            for (int y = 0; y < game.numTilesY; y++) {
                 int startX = startingX + boardWidth + (tileSize + boardWidth) * x;
                 int endX = startX + tileSize;
                 int startY = startingY + boardWidth + (tileSize + boardWidth) * y;
@@ -113,13 +115,20 @@ public class BoardView extends View {
         startingY = (int) (boardMidY - (tileSize + boardWidth) * halfNumSquaresY - boardWidth / 2);
         endingY = (int) (boardMidY + (tileSize + boardWidth) * halfNumSquaresY + boardWidth / 2);
 
+        paint.setTextSize(tileSize);
         textSize = tileSize * tileSize / Math.max(tileSize, paint.measureText("0000"));
+
+        paint.setTextAlign(Paint.Align.CENTER);
+        paint.setTextSize(1000);
+
+        paint.setTextSize(tileSize);
+        tileTextSize = textSize;
     }
 
     private void createBitmapTiles() {
         Resources res = getResources();
         int[] tileIds = getTileIds();
-        for (int i = 1; i < bitmapCell.length; i++) {
+        for (int i = 0; i < bitmapCell.length; i++) {
             int val = (int) Math.pow(2, i);
             Bitmap bitmap = Bitmap.createBitmap(tileSize, tileSize, Bitmap.Config.ALPHA_8);
             Canvas canvas = new Canvas(bitmap);
