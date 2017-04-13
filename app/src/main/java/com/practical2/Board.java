@@ -65,8 +65,8 @@ public class Board {
     }
 
     boolean isSpotWithinBounds(BoardSpot spot) {
-        return 0 <= spot.getX() && spot.getX() < board.length
-                && 0 <= spot.getY() && spot.getY() < board[0].length;
+        return 0 <= spot.getX() && spot.getX() < board.length - 1
+                && 0 <= spot.getY() && spot.getY() < board[0].length - 1;
     }
 
     private boolean isSpotWithinBounds(int x, int y) {

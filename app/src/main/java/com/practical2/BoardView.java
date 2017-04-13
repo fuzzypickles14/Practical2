@@ -101,10 +101,10 @@ public class BoardView extends View {
 
     private void getLayout(int width, int height) {
         tileSize = Math.min(width / (game.numTilesX + 1), height / (game.numTilesY + 3));
-        boardWidth = tileSize / 7;
+        boardWidth = 70;
         int screenMidX = width / 2;
         int screenMidY = height / 2;
-        int boardMidY = screenMidY + tileSize / 2;
+
         iconSize = tileSize / 2;
 
         // Board Dimensions
@@ -112,16 +112,16 @@ public class BoardView extends View {
         double halfNumSquaresY = 2;
         startingX = (int) (screenMidX - (tileSize + boardWidth) * halfNumSquaresX - boardWidth / 2);
         endingX = (int) (screenMidX + (tileSize + boardWidth) * halfNumSquaresX + boardWidth / 2);
-        startingY = (int) (boardMidY - (tileSize + boardWidth) * halfNumSquaresY - boardWidth / 2);
-        endingY = (int) (boardMidY + (tileSize + boardWidth) * halfNumSquaresY + boardWidth / 2);
+        startingY = (int) (screenMidY - (tileSize + boardWidth) * halfNumSquaresY - boardWidth / 2);
+        endingY = (int) (screenMidY + (tileSize + boardWidth) * halfNumSquaresY + boardWidth / 2);
 
-        paint.setTextSize(tileSize);
+        //paint.setTextSize(tileSize);
         textSize = tileSize * tileSize / Math.max(tileSize, paint.measureText("0000"));
 
         paint.setTextAlign(Paint.Align.CENTER);
-        paint.setTextSize(1000);
+        //paint.setTextSize(1000);
 
-        paint.setTextSize(tileSize);
+        //paint.setTextSize(tileSize);
         tileTextSize = textSize;
     }
 
@@ -172,8 +172,8 @@ public class BoardView extends View {
 
     private void drawBackgroundBoard(Canvas canvas) {
         Drawable backgroundTile = getDrawable(R.drawable.tile);
-        for (int x = 0; x < 4; x++) {
-            for (int y = 0; y < 4; y++) {
+        for (int x = 0; x < game.numTilesX; x++) {
+            for (int y = 0; y < game.numTilesY; y++) {
                 int startX = startingX + boardWidth + (tileSize + boardWidth) * x;
                 int endX = startX + tileSize;
                 int startY = startingY + boardWidth + (tileSize + boardWidth) * y;

@@ -199,7 +199,7 @@ public class MainGame {
             previous = nextSpot;
             nextSpot = new BoardSpot(previous.getX() + vector.getX(),
                     previous.getY() + vector.getY());
-        } while (board.isSpotWithinBounds(nextSpot) && board.isSpotWithinBounds(nextSpot));
+        } while (board.isSpotWithinBounds(nextSpot) && board.isBoardSpotAvailable(nextSpot));
 
         return new BoardSpot[]{previous, nextSpot};
     }
