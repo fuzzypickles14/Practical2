@@ -1,8 +1,13 @@
 package com.practical2;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.app.DialogFragment;
 import android.view.View;
 import android.widget.Button;
 
@@ -52,6 +57,7 @@ public class MainGame {
             highscore = score;
             saveHighScore();
         }
+        setNewGameState();
         score = 0;
         addStartTiles();
         mainBoardView.invalidate();
@@ -100,8 +106,8 @@ public class MainGame {
         }
         prepareUndoState();
         BoardSpot vector = getVector(direction);
-        List<Integer> traversalsX = buildTraversalsX(vector);
-        List<Integer> traversalsY = buildTraversalsY(vector);
+        ArrayList<Integer> traversalsX = buildTraversalsX(vector);
+        ArrayList<Integer> traversalsY = buildTraversalsY(vector);
         boolean moved = false;
 
         prepareTiles();
@@ -117,27 +123,25 @@ public class MainGame {
 
                     if (nextTile != null && nextTile.getValue() == tile.getValue() && nextTile.getTilesMergedWith() == null) {
                         Tile merged = new Tile(positions[1], tile.getValue() * 2);
-                        Tile[] temp = {tile, nextTile};
-                        merged.setMergedWith(temp);
+                        Tile[] tiles = {tile, nextTile};
+                        merged.setMergedWith(tiles);
 
                         board.insertTile(merged);
                         board.removeTile(tile);
 
-                        // Converge the two tiles' positions
                         tile.updatePosition(positions[1]);
 
                         // Update the score
                         score = score + merged.getValue();
                         highscore = Math.max(score, highscore);
 
-                        // The mighty 2048 tile
+                        // Check for 2048
                         if (merged.getValue() == 2048) {
                             gameState = GAME_WIN; // Set win state
                             endGame();
                         }
                     } else {
                         moveTile(tile, positions[0]);
-                        int[] extras = {x, x, 0};
                     }
 
                     if (!positionsEqual(spot, tile)) {
@@ -167,8 +171,8 @@ public class MainGame {
     private ArrayList<Integer> buildTraversalsX(BoardSpot vector) {
         ArrayList<Integer> traversals = new ArrayList<>();
 
-        for (int xx = 0; xx < numTilesX; xx++) {
-            traversals.add(xx);
+        for (int x = 0; x < numTilesX; x++) {
+            traversals.add(x);
         }
         if (vector.getX() == 1) {
             Collections.reverse(traversals);
@@ -180,8 +184,8 @@ public class MainGame {
     private ArrayList<Integer> buildTraversalsY(BoardSpot vector) {
         ArrayList<Integer> traversals = new ArrayList<>();
 
-        for (int xx = 0; xx < numTilesY; xx++) {
-            traversals.add(xx);
+        for (int x = 0; x < numTilesY; x++) {
+            traversals.add(x);
         }
         if (vector.getY() == 1) {
             Collections.reverse(traversals);
@@ -290,6 +294,27 @@ public class MainGame {
         if (score >= highscore) {
             highscore = score;
             saveHighScore();
+        }
+        if (gameLost()) {
+            new AlertDialog.Builder(mainContext)
+                    .setTitle("Game Over")
+                    .setMessage(R.string.results)
+                    .setPositiveButton(R.string.play_again, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            newGame();
+                        }
+                    })
+                    .show();
+        } else {
+            new AlertDialog.Builder(mainContext)
+                    .setTitle("You win!")
+                    .setMessage(R.string.results)
+                    .setPositiveButton(R.string.play_again, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            newGame();
+                        }
+                    })
+                    .show();
         }
     }
 
