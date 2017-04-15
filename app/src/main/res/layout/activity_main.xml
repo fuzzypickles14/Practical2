@@ -21,9 +21,11 @@
         android:id="@+id/scoreTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/rightButton"
         android:elevation="22dp"
-        android:text="Score: 0" />
+        android:text="@string/zeroScore"
+        android:textSize="14sp"
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/restartButton" />
 
 
     <LinearLayout

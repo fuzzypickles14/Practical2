@@ -161,8 +161,14 @@ public class BoardView extends View {
         } else {
             paint.setColor(ResourcesCompat.getColor(getResources(), R.color.text_black, null));
         }
-        paint.setTextSize(100);
+        paint.setTextSize(scaleTextSize(value));
         canvas.drawText("" + value, tileSize / 2, tileSize / 2 - textShiftY, paint);
+    }
+
+    private float scaleTextSize(int value) {
+        int numDigits = (int) (Math.log10(value) + 1);
+        return 100 * (1 - (numDigits / 10.0f));
+
     }
 
     private void drawBackground(Canvas canvas) {
