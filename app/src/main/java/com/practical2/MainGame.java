@@ -1,15 +1,19 @@
 package com.practical2;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.DialogFragment;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -25,9 +29,9 @@ public class MainGame {
     public final int numTilesX = 4;
     public final int numTilesY = 4;
     public float highscore = 0;
-    public float score = 0;
-    public float lastScore = 0;
-    public float bufScore = 0;
+    public int score = 0;
+    public int lastScore = 0;
+    public int bufScore = 0;
     public boolean canUndo;
 
     private final Context mainContext;
@@ -37,6 +41,7 @@ public class MainGame {
     private static final int GAME_LOSE = -1;
     private static final int GAME_CONTINUES = 0;
     private int gameState = GAME_CONTINUES;
+    private TextView scoreTextView;
 
 
     public MainGame(Context context, BoardView boardView) {
@@ -230,7 +235,7 @@ public class MainGame {
         SharedPreferences p = PreferenceManager.getDefaultSharedPreferences(mainContext);
         SharedPreferences.Editor editor = p.edit();
         editor.putFloat(HIGH_SCORE, highscore);
-        editor.commit();
+        editor.apply();
     }
 
     private float getHighScore() {
@@ -291,6 +296,7 @@ public class MainGame {
     }
 
     private void endGame() {
+        Resources resources = mainContext.getResources();
         if (score >= highscore) {
             highscore = score;
             saveHighScore();
@@ -298,7 +304,7 @@ public class MainGame {
         if (gameLost()) {
             new AlertDialog.Builder(mainContext)
                     .setTitle("Game Over")
-                    .setMessage(R.string.results)
+                    .setMessage(String.format(resources.getString(R.string.finalScore), score))
                     .setPositiveButton(R.string.play_again, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             newGame();
@@ -308,7 +314,7 @@ public class MainGame {
         } else {
             new AlertDialog.Builder(mainContext)
                     .setTitle("You win!")
-                    .setMessage(R.string.results)
+                    .setMessage(String.format(resources.getString(R.string.finalScore), score))
                     .setPositiveButton(R.string.play_again, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             newGame();

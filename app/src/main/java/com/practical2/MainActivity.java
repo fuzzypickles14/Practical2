@@ -3,9 +3,11 @@ package com.practical2;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -46,12 +48,20 @@ public class MainActivity extends AppCompatActivity {
             Button swipeButton = ((Button) v);
             int direction = Integer.parseInt((String)swipeButton.getTag());
             currentGame.move(direction);
+            setScore(currentGame.score);
         }
     };
+
+    private void setScore(int score) {
+        TextView scoreTextView = (TextView) findViewById(R.id.scoreTextView);
+        String scoreText = String.format(getResources().getString(R.string.basicScore), score);
+        scoreTextView.setText(scoreText);
+    }
 
     private View.OnClickListener restartButtonListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+            setScore(0);
             currentGame.newGame();
         }
     };
@@ -79,15 +89,19 @@ public class MainActivity extends AppCompatActivity {
             return true;
         } else if (keyCode == KeyEvent.KEYCODE_DPAD_DOWN) {
             currentGame.move(2);
+            setScore(currentGame.score);
             return true;
         } else if (keyCode == KeyEvent.KEYCODE_DPAD_UP) {
             currentGame.move(0);
+            setScore(currentGame.score);
             return true;
         } else if (keyCode == KeyEvent.KEYCODE_DPAD_LEFT) {
             currentGame.move(3);
+            setScore(currentGame.score);
             return true;
         } else if (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT) {
             currentGame.move(1);
+            setScore(currentGame.score);
             return true;
         }
         return super.onKeyDown(keyCode, event);
