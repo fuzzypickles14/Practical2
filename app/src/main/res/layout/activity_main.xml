@@ -27,12 +27,11 @@
         android:layout_alignParentTop="true"
         android:layout_alignStart="@+id/restartButton" />
 
-
-    <LinearLayout
-        android:id="@+id/boardView"
+    <fragment
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/upButton" />
+        android:layout_above="@+id/upButton"
+        android:name="com.practical2.BoardFragment"/>
 
 
     <Button

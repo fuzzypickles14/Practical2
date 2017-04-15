@@ -9,23 +9,21 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements IMainGame {
 
 
-    private MainGame currentGame;
+    public MainGame currentGame;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         View mainView = getLayoutInflater().inflate(R.layout.activity_main, null);
         System.out.println(mainView.getWidth() + "  " + mainView.getHeight());
-        LinearLayout container = (LinearLayout) mainView.findViewById(R.id.boardView);
         BoardView boardView = new BoardView(this);
         System.out.println(boardView.getWidth() + "  " + boardView.getHeight());
-        container.addView(boardView);
+
         setContentView(mainView);
-        boardView.game.newGame();
-        currentGame = boardView.game;
         setSwipeButtonListener(mainView);
         setRestartButtonListener(mainView);
         setUpButtons();
@@ -40,6 +38,11 @@ public class MainActivity extends AppCompatActivity {
         rightButton.setRotation(90);
         downButton.setRotation(180);
         leftButton.setRotation(-90);
+    }
+
+    @Override
+    public void setCurrentGame(MainGame game) {
+        currentGame = game;
     }
 
     private View.OnClickListener swipeButtonListener = new View.OnClickListener() {
@@ -106,5 +109,4 @@ public class MainActivity extends AppCompatActivity {
         }
         return super.onKeyDown(keyCode, event);
     }
-
 }

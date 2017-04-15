@@ -41,7 +41,6 @@ public class MainGame {
     private static final int GAME_LOSE = -1;
     private static final int GAME_CONTINUES = 0;
     private int gameState = GAME_CONTINUES;
-    private TextView scoreTextView;
 
 
     public MainGame(Context context, BoardView boardView) {
