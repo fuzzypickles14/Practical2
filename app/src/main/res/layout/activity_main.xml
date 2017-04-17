@@ -31,7 +31,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/upButton"
-        android:name="com.practical2.BoardFragment"/>
+        android:name="com.practical2.BoardFragment"
+        tools:layout="@layout/board_fragment" />
 
 
     <Button
@@ -78,5 +79,14 @@
         android:text="Restart"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:id="@+id/highScoreTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:text="HighScore: 0"
+        android:layout_alignParentTop="true"
+        android:layout_toStartOf="@+id/leftButton" />
 
 </RelativeLayout>

@@ -28,7 +28,7 @@ public class MainGame {
     public Board board = null;
     public final int numTilesX = 4;
     public final int numTilesY = 4;
-    public float highscore = 0;
+    public int highscore = 0;
     public int score = 0;
     public int lastScore = 0;
     public int bufScore = 0;
@@ -237,9 +237,9 @@ public class MainGame {
         editor.apply();
     }
 
-    private float getHighScore() {
+    private int getHighScore() {
         SharedPreferences p = PreferenceManager.getDefaultSharedPreferences(mainContext);
-        return p.getFloat(HIGH_SCORE, -1);
+        return (int)p.getFloat(HIGH_SCORE, -1);
     }
 
     public boolean gameWon() {
@@ -312,7 +312,7 @@ public class MainGame {
                     .show();
         } else {
             new AlertDialog.Builder(mainContext)
-                    .setTitle("You win!")
+                    .setTitle("You Win!")
                     .setMessage(String.format(resources.getString(R.string.finalScore), score))
                     .setPositiveButton(R.string.play_again, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
@@ -323,7 +323,7 @@ public class MainGame {
         }
     }
 
-    public void setNewGameState() {
+    private void setNewGameState() {
         gameState = GAME_CONTINUES;
     }
 }

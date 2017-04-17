@@ -1,5 +1,6 @@
 package com.practical2;
 
+import android.media.midi.MidiReceiver;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -34,10 +35,10 @@ public class MainActivity extends AppCompatActivity implements IMainGame {
         View rightButton = findViewById(R.id.rightButton);
         View leftButton = findViewById(R.id.leftButton);
         View downButton = findViewById(R.id.downButton);
-
         rightButton.setRotation(90);
         downButton.setRotation(180);
         leftButton.setRotation(-90);
+        setHighScore(currentGame.highscore);
     }
 
     @Override
@@ -50,8 +51,7 @@ public class MainActivity extends AppCompatActivity implements IMainGame {
         public void onClick(View v) {
             Button swipeButton = ((Button) v);
             int direction = Integer.parseInt((String)swipeButton.getTag());
-            currentGame.move(direction);
-            setScore(currentGame.score);
+            moveAndSetScore(direction);
         }
     };
 
@@ -61,10 +61,17 @@ public class MainActivity extends AppCompatActivity implements IMainGame {
         scoreTextView.setText(scoreText);
     }
 
+    private void setHighScore(int highScore) {
+        TextView highScoreTextView = (TextView) findViewById(R.id.highScoreTextView);
+        String highScoreText = String.format(getResources().getString(R.string.basicHighScore), highScore);
+        highScoreTextView.setText(highScoreText);
+    }
+
     private View.OnClickListener restartButtonListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             setScore(0);
+            setHighScore(currentGame.highscore);
             currentGame.newGame();
         }
     };
@@ -91,22 +98,24 @@ public class MainActivity extends AppCompatActivity implements IMainGame {
             //Do nothing
             return true;
         } else if (keyCode == KeyEvent.KEYCODE_DPAD_DOWN) {
-            currentGame.move(2);
-            setScore(currentGame.score);
+            moveAndSetScore(DIRECTIONS.DOWN.ordinal());
             return true;
         } else if (keyCode == KeyEvent.KEYCODE_DPAD_UP) {
-            currentGame.move(0);
-            setScore(currentGame.score);
+            moveAndSetScore(DIRECTIONS.UP.ordinal());
             return true;
         } else if (keyCode == KeyEvent.KEYCODE_DPAD_LEFT) {
-            currentGame.move(3);
-            setScore(currentGame.score);
+            moveAndSetScore(DIRECTIONS.LEFT.ordinal());
             return true;
         } else if (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT) {
-            currentGame.move(1);
-            setScore(currentGame.score);
+            moveAndSetScore(DIRECTIONS.RIGHT.ordinal());
             return true;
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    private void moveAndSetScore(int direction) {
+        currentGame.move(direction);
+        setHighScore(currentGame.highscore);
+        setScore(currentGame.score);
     }
 }

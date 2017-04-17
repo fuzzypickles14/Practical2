@@ -6,5 +6,9 @@ package com.practical2;
 
 public interface IMainGame {
 
+
+    enum DIRECTIONS {
+     UP, RIGHT, DOWN, LEFT
+    }
     void setCurrentGame(MainGame currentGame);
 }
