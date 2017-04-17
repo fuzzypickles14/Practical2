@@ -40,7 +40,7 @@ public class MainGame {
     private static final int GAME_WIN = 1;
     private static final int GAME_LOSE = -1;
     private static final int GAME_CONTINUES = 0;
-    private int gameState = GAME_CONTINUES;
+    int gameState = GAME_CONTINUES;
 
 
     public MainGame(Context context, BoardView boardView) {

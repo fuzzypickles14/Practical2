@@ -1,6 +1,8 @@
 package com.practical2;
 
+import android.content.SharedPreferences;
 import android.media.midi.MidiReceiver;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -24,10 +26,36 @@ public class MainActivity extends AppCompatActivity implements IMainGame {
         BoardView boardView = new BoardView(this);
         System.out.println(boardView.getWidth() + "  " + boardView.getHeight());
 
+        if (savedInstanceState != null) {
+            if (savedInstanceState.getBoolean("hasState")) {
+                this.load();
+            }
+        }
+
         setContentView(mainView);
         setSwipeButtonListener(mainView);
         setRestartButtonListener(mainView);
         setUpButtons();
+
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBoolean("hasState", true);
+        this.save();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        this.load();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        this.save();
     }
 
     private void setUpButtons() {
@@ -117,5 +145,52 @@ public class MainActivity extends AppCompatActivity implements IMainGame {
         currentGame.move(direction);
         setHighScore(currentGame.highscore);
         setScore(currentGame.score);
+    }
+
+    private static final String WIDTH = "pref_width";
+    private static final String HEIGHT = "pref_height";
+    private static final String SCORE = "pref_score";
+    private static final String HIGH_SCORE = "pref_highScore";
+    private static final String GAME_STATE = "pref_gameState";
+
+    private void save() {
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = settings.edit();
+
+        Tile[][] currentBoard = currentGame.board.board;
+        editor.putInt(WIDTH, currentBoard.length);
+        editor.putInt(HEIGHT, currentBoard[0].length);
+        for (int x = 0; x < currentBoard.length; x++) {
+            for (int y = 0; y < currentBoard[0].length; y++) {
+                if (currentBoard[x][y] != null) {
+                    editor.putInt(x + " " + y, currentBoard[x][y].getValue());
+                } else {
+                    editor.putInt(x + " " + y, 0);
+                }
+            }
+        }
+        editor.putFloat(SCORE, currentGame.score);
+        editor.putFloat(HIGH_SCORE, currentGame.highscore);
+        editor.putInt(GAME_STATE, currentGame.gameState);
+        editor.commit();
+
+    }
+
+    private void load() {
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+        for (int x = 0; x < currentGame.board.board.length; x++) {
+            for (int y = 0; y < currentGame.board.board[0].length; y++) {
+                int value = settings.getInt(x + " " + y, -1);
+                if (value > 0) {
+                    currentGame.board.board[x][y] = new Tile(x, y, value);
+                } else if (value == 0) {
+                    currentGame.board.board[x][y] = null;
+                }
+            }
+        }
+
+        setScore((int) settings.getFloat(SCORE, currentGame.score));
+        setHighScore((int) settings.getFloat(HIGH_SCORE, currentGame.highscore));
+        currentGame.gameState = settings.getInt(GAME_STATE, currentGame.gameState);
     }
 }
