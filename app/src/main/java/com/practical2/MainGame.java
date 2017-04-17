@@ -25,6 +25,10 @@ import java.util.List;
 
 public class MainGame {
 
+    public interface MainGameInterface {
+        public void onNewGameStarted();
+    }
+
     public Board board = null;
     public final int numTilesX = 4;
     public final int numTilesY = 4;
@@ -36,6 +40,7 @@ public class MainGame {
 
     private final Context mainContext;
     private final BoardView mainBoardView;
+    private MainGameInterface mainGameInterface = null;
     private static final String HIGH_SCORE = "pref_highScore";
     private static final int GAME_WIN = 1;
     private static final int GAME_LOSE = -1;
@@ -46,6 +51,10 @@ public class MainGame {
     public MainGame(Context context, BoardView boardView) {
         mainContext = context;
         mainBoardView = boardView;
+    }
+
+    public void setGameInterface(MainGameInterface gameInterface) {
+        mainGameInterface = gameInterface;
     }
 
     public void newGame() {
@@ -65,6 +74,9 @@ public class MainGame {
         score = 0;
         addStartTiles();
         mainBoardView.invalidate();
+        if (mainGameInterface != null) {
+            mainGameInterface.onNewGameStarted();
+        }
     }
 
     private void prepareTiles() {

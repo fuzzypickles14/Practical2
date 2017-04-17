@@ -12,7 +12,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity implements IMainGame {
+public class MainActivity extends AppCompatActivity implements IMainGame, MainGame.MainGameInterface {
 
 
     public MainGame currentGame;
@@ -72,6 +72,7 @@ public class MainActivity extends AppCompatActivity implements IMainGame {
     @Override
     public void setCurrentGame(MainGame game) {
         currentGame = game;
+        currentGame.setGameInterface(this);
     }
 
     private View.OnClickListener swipeButtonListener = new View.OnClickListener() {
@@ -103,6 +104,12 @@ public class MainActivity extends AppCompatActivity implements IMainGame {
             currentGame.newGame();
         }
     };
+
+    @Override
+    public void onNewGameStarted() {
+        setScore(currentGame.score);
+        setHighScore(currentGame.highscore);
+    }
 
     private void setSwipeButtonListener(View view) {
         Button upButton = (Button) view.findViewById(R.id.upButton);
