@@ -86,6 +86,7 @@ public class MainActivity extends AppCompatActivity implements IMainGame, MainGa
 
     private void setScore(int score) {
         TextView scoreTextView = (TextView) findViewById(R.id.scoreTextView);
+        currentGame.score = score;
         String scoreText = String.format(getResources().getString(R.string.basicScore), score);
         scoreTextView.setText(scoreText);
     }
