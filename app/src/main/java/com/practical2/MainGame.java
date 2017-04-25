@@ -19,6 +19,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import static android.R.attr.tunerCount;
+import static android.R.attr.x;
+
 /**
  * Created by robbylagen on 4/12/17.
  */
@@ -106,15 +109,6 @@ public class MainGame {
         bufScore = score;
     }
 
-    public void revertUndoState() {
-        if (canUndo) {
-            canUndo = false;
-            board.revertTiles();
-            score = lastScore;
-            mainBoardView.invalidate();
-        }
-    }
-
     public void move(int direction) {
         // 0: up, 1: right, 2: down, 3: left
         if (!gameIsActive()) {
@@ -128,6 +122,7 @@ public class MainGame {
 
         prepareTiles();
 
+        boolean test = canMoveLeft();
         for (int x : traversalsX) {
             for (int y : traversalsY) {
                 BoardSpot spot = new BoardSpot(x, y);
@@ -302,7 +297,6 @@ public class MainGame {
                 }
             }
         }
-
         return false;
     }
 
@@ -338,6 +332,78 @@ public class MainGame {
     private void setNewGameState() {
         gameState = GAME_CONTINUES;
     }
+
+    public void startDemo() {
+        if (canMoveLeft()) {
+            move(IMainGame.DIRECTIONS.LEFT.ordinal());
+        } else if (canMoveUp()) {
+            move(IMainGame.DIRECTIONS.UP.ordinal());
+        }else if (canMoveRight()) {
+            move(IMainGame.DIRECTIONS.RIGHT.ordinal());
+        } else if (canMoveDown()) {
+            move(IMainGame.DIRECTIONS.DOWN.ordinal());
+        }
+    }
+
+    private boolean canMoveLeft() {
+        return canMoveInDirection(IMainGame.DIRECTIONS.LEFT);
+    }
+    private boolean canMoveUp() {
+        return canMoveInDirection(IMainGame.DIRECTIONS.UP);
+    }
+    private boolean canMoveRight() {
+        return canMoveInDirection(IMainGame.DIRECTIONS.RIGHT);
+    }
+    private boolean canMoveDown() {
+        return canMoveInDirection(IMainGame.DIRECTIONS.DOWN);
+    }
+
+    private boolean canMoveInDirection(IMainGame.DIRECTIONS directions) {
+        prepareUndoState();
+        BoardSpot vector = getVector(directions.ordinal());
+        ArrayList<Integer> traversalsX = buildTraversalsX(vector);
+        ArrayList<Integer> traversalsY = buildTraversalsY(vector);
+        boolean canMove = false;
+        for (int x : traversalsX) {
+            for (int y : traversalsY) {
+                BoardSpot spot = new BoardSpot(x, y);
+                Tile tile = board.getSpotContent(spot);
+
+                if (tile != null) {
+                    BoardSpot[] positions = findFarthestPosition(spot, vector);
+                    Tile nextTile = board.getSpotContent(positions[1]);
+                    if (nextTile != null) {
+                        if (nextTile.getValue() == tile.getValue()) {
+                            return true;
+                        }
+                        else if (nextTile.getY() - tile.getY() > 1 || nextTile.getX() - tile.getX() > 1) {
+                            return true;
+                        } else if (positionsEqual(spot, tile)) {
+                            canMove = false;
+                        }
+                    }else if (directions == IMainGame.DIRECTIONS.LEFT) {
+                        if (board.getSpotContent(0, tile.getY()) == null) {
+                            return true;
+                        }
+                    }else if (directions == IMainGame.DIRECTIONS.RIGHT) {
+                        if (board.getSpotContent(3, tile.getY()) == null) {
+                            return true;
+                        }
+                    }else if (directions == IMainGame.DIRECTIONS.UP) {
+                        if (board.getSpotContent(tile.getX(), 0) == null) {
+                            return true;
+                        }
+                    }else if (directions == IMainGame.DIRECTIONS.DOWN) {
+                        if (board.getSpotContent(tile.getX(), 3) == null) {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        return canMove;
+    }
+
 }
 
 

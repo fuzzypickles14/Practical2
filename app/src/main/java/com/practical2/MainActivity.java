@@ -1,15 +1,12 @@
 package com.practical2;
 
 import android.content.SharedPreferences;
-import android.media.midi.MidiReceiver;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity implements IMainGame, MainGame.MainGameInterface {
@@ -35,8 +32,8 @@ public class MainActivity extends AppCompatActivity implements IMainGame, MainGa
         setContentView(mainView);
         setSwipeButtonListener(mainView);
         setRestartButtonListener(mainView);
+        setDemoButtonListener(mainView);
         setUpButtons();
-
     }
 
     @Override
@@ -108,8 +105,12 @@ public class MainActivity extends AppCompatActivity implements IMainGame, MainGa
 
     @Override
     public void onNewGameStarted() {
-        setScore(currentGame.score);
-        setHighScore(currentGame.highscore);
+        setScores(currentGame.score, currentGame.highscore);
+    }
+
+    private void setScores(int score, int highscore) {
+        setScore(score);
+        setHighScore(highscore);
     }
 
     private void setSwipeButtonListener(View view) {
@@ -127,6 +128,19 @@ public class MainActivity extends AppCompatActivity implements IMainGame, MainGa
         Button restartButton = (Button) view.findViewById(R.id.restartButton);
         restartButton.setOnClickListener(restartButtonListener);
     }
+
+    private void setDemoButtonListener(View view) {
+        Button demoButton = (Button) view.findViewById(R.id.demoButton);
+        demoButton.setOnClickListener(demoButtonListener);
+    }
+
+    private View.OnClickListener demoButtonListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            currentGame.startDemo();
+            setScores(currentGame.score, currentGame.highscore);
+        }
+    };
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -197,8 +211,7 @@ public class MainActivity extends AppCompatActivity implements IMainGame, MainGa
             }
         }
 
-        setScore((int) settings.getFloat(SCORE, currentGame.score));
-        setHighScore((int) settings.getFloat(HIGH_SCORE, currentGame.highscore));
+        setScores((int) settings.getFloat(SCORE, currentGame.score), (int) settings.getFloat(HIGH_SCORE, currentGame.highscore));
         currentGame.gameState = settings.getInt(GAME_STATE, currentGame.gameState);
     }
 }
